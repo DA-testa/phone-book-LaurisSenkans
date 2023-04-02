@@ -13,17 +13,16 @@ def write_responses(result):
     print('\n'.join(result))
 
 def process_queries(queries):
+    contacts = {}
     result = []
-    phone_book = {}
     for query in queries:
-        q = query.split()
-        if q[0] == 'add':
-            phone_book[q[1]] = q[2]
-        elif q[0] == 'del':
-            if q[1] in phone_book:
-                del phone_book[q[1]]
-        else:
-            result.append(phone_book.get(q[1], 'not found'))
+        if query.type == 'add':
+            contacts[query.number] = query.name
+        elif query.type == 'del':
+            contacts.pop(query.number, None)
+        elif query.type == 'find':
+            name = contacts.get(query.number, 'not found')
+            result.append(name)
     return result
 
 if __name__ == '__main__':
